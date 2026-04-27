@@ -1202,3 +1202,474 @@ color: oklch(58% 0.20 260);
 > components/ → 22 componentes completos
 > references/ → webgl-r3f, animation-advanced, scrolltelling-advanced, immersive-web, psychology-ux, performance-advanced, css-cutting-edge, color-systems, figma-tokens, email-print-animation-modes, css-modern-typography-shadows, advanced-techniques, missing-segments
 > docs/ → GUIA-COMPLETO, PROMPTS, FAQ, MODES
+
+---
+
+## TEXTO 3D — SISTEMA v5
+
+### Tipos de texto 3D por contexto
+```
+Luxury/Hero:     Text3D com MeshTransmissionMaterial (vidro)
+Tech/SaaS:       Text3D com matcap metálico
+Editorial:       TextGeometry com bevel sutil e material flat
+Neon/Gaming:     Texto com emissive + bloom post-processing
+Curvo/Criativo:  CatmullRomCurve3 com chars posicionados na curva
+Dissolve:        Partículas que formam e dissolvem texto
+```
+
+### Regras de texto 3D
+```
+SEMPRE:
+□ Converter fonte com facetype.js antes (não usar system fonts)
+□ bevelEnabled com bevelSegments ≥ 4 (suavidade)
+□ Limitar a 1-2 palavras (performance)
+□ Fallback 2D para mobile/low-end
+□ prefers-reduced-motion: parar animação, manter visível
+
+NUNCA:
+□ Texto 3D em parágrafos (legibilidade zero)
+□ Texto 3D sem iluminação adequada
+□ Fontes sem versão JSON para Three.js
+□ Mais de 3 objetos Text3D simultaneamente
+```
+
+---
+
+## ÍCONES — SISTEMA DE DECISÃO v5
+
+```
+A�ão do sistema (save, close, edit):  Lucide — stroke 1.5, size 18-20px
+Estado animado (loading→done):        Lottie com segmentos
+Marca/identidade:                     SVG customizado próprio
+Decorativo/hero:                      R3F ou SVG animado grande
+Inline em texto:                      Lucide size 16px, vertical-align middle
+```
+
+### Animated icons pattern
+```css
+/* Stroke draw animation no hover */
+.icon svg path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  transition: stroke-dashoffset 0.4s ease;
+}
+.icon:hover svg path { stroke-dashoffset: 0; }
+
+/* State transition com opacity */
+.icon-loading { opacity: 1; transition: opacity 0.2s; }
+.icon-done    { opacity: 0; }
+.icon.is-done .icon-loading { opacity: 0; }
+.icon.is-done .icon-done    { opacity: 1; }
+```
+
+---
+
+## BACKGROUNDS — SISTEMA DE DECISÃO v5
+
+### Regra: nunca fundo liso #000 ou #fff puros
+```
+Luxury:     Noise pesado (#0a0005 quase-preto) + grain animado
+Tech/SaaS:  Dot grid interativo + gradient sutil azul profundo
+Criativo:   Fluid WebGL ou constellation particles + aurora
+Editorial:  #fafaf8 (warm white) + grain microscópico
+Wellness:   Gradient mesh OKLCH suave + breathing animation
+Gaming:     Particles neon + god rays + dark deep (#050510)
+Startup:    Gradient mesh animado com OKLCH
+Govtech:    Branco puro ou off-white — zero distração
+Fintech:    Grid de linhas fino + radial gradient azul-marinho
+```
+
+### Background budget de performance
+```
+60fps exige:
+Mobile low:  CSS gradiente estático apenas
+Mobile:      CSS animation (aurora CSS) ou canvas simples
+Tablet:      Canvas animation ou WebGL simples (sem post-processing)
+Desktop:     WebGL completo com post-processing
+Desktop HW:  WebGL full + fluid simulation
+
+Regra: testar no iPhone SE antes de considerar done
+```
+
+---
+
+## LÓGICA DE RESPONSIVIDADE v5
+
+### Paradigma por breakpoint (não só escalar)
+```
+MOBILE (<768px):
+  - 1 coluna absoluta
+  - Touch-first (44px mínimo)
+  - Hierarquia simplificada (1 CTA visível)
+  - Sem hover states (usar :active)
+  - Swipe > scroll horizontal
+  - Animações 50% mais rápidas
+  - 3D → CSS 3D ou estático
+  - svh para heights
+
+TABLET (768-1024px):
+  - 2 colunas máximo
+  - Touch + mouse híbrido
+  - Hover states presentes mas não dependentes
+  - Animações moderadas
+  - WebGL simples sem post-processing
+
+DESKTOP (>1024px):
+  - 3-4 colunas
+  - Hover como affordance primária
+  - Animações completas
+  - WebGL + post-processing
+  - Cursor customizado ativo
+```
+
+### Fluid spacing obrigatório
+```css
+/* NUNCA valores fixos para espaçamentos */
+/* SEMPRE clamp() */
+.section { padding-block: clamp(3rem, 8vw, 8rem); }
+.card    { padding: clamp(1rem, 3vw, 2rem); }
+.gap     { gap: clamp(1rem, 2.5vw, 2rem); }
+```
+
+---
+
+## PERFORMANCE TOTAL v5
+
+### Budget por tipo de dispositivo
+```
+Mobile low-end (Moto G, Galaxy A):
+  Max drawcalls: 15
+  Max triangles: 5k
+  Max textures: 3 (512px)
+  Post-processing: nenhum
+  Particles: 0 (CSS apenas)
+
+Mobile flagship:
+  Max drawcalls: 50
+  Max triangles: 50k
+  Max textures: 5 (1024px)
+  Post-processing: bloom apenas
+  Particles: 500
+
+Desktop médio:
+  Max drawcalls: 150
+  Max triangles: 500k
+  Max textures: 10 (2048px)
+  Post-processing: bloom + AA
+  Particles: 3000
+
+Desktop topo:
+  Sem limite prático
+  Fluid simulation
+  Ray marching
+  Particles: 50000+
+```
+
+### Checklist de performance ANTES de entregar
+```
+WebGL:
+□ pixelRatio: Math.min(devicePixelRatio, 2)
+□ Todos os geometries/materials com dispose() no cleanup
+□ InstancedMesh para objetos repetidos (>3)
+□ LOD para objetos distantes
+□ Textures comprimidas com KTX2/Basis
+
+Scroll:
+□ passive: true em TODOS os scroll listeners
+□ RAF throttle em handlers de scroll manual
+□ Lenis sincronizado com ScrollTrigger
+□ content-visibility: auto em seções longas
+□ IntersectionObserver em vez de scroll para reveals
+
+CSS:
+□ will-change em MENOS de 4 elementos simultâneos
+□ Remover will-change após animação
+□ Apenas transform/opacity animados
+□ contain: layout paint em componentes isolados
+
+Fontes:
+□ font-display: optional ou swap
+□ size-adjust para fallback perfeito
+□ WOFF2 apenas (não TTF)
+□ unicode-range para subsetting
+□ Preload da fonte above-fold
+```
+
+> Referências completas em:
+> 3D/texto: references/3d-text-icons-folds.md
+> Tipografia: references/typography-non-generic.md
+> Câmera+scroll: references/camera-scroll-backgrounds-performance.md
+> Responsividade: references/responsive-logic-system.md
+
+---
+
+## DESIGN CINEMATOGRÁFICO v6
+
+### Princípio fundador
+> Web design não é design gráfico com animação. É cinema interativo.
+> O usuário é o espectador. O scroll é a linha do tempo. A seção é o frame.
+
+### Protocolo pré-produção (antes de qualquer código)
+```
+ROTEIRO (30min):
+□ Quem é o protagonista? (persona detalhada)
+□ Qual é o problema que ele tem?
+□ Qual é a transformação que o produto promove?
+□ Three-act: Setup → Confronto → Resolução
+
+COLOR SCRIPT (20min):
+□ Mapear emoção por seção (como Pixar faz)
+□ Início: paleta fria (problema) → Fim: paleta quente (solução)
+□ Definir leitmotif visual (forma/cor recorrente)
+
+STORYBOARD (60min):
+□ Sketch de cada seção como quadro cinematográfico
+□ Marcar: o que entra? Como? Velocidade?
+□ Identificar o climax e o post-credit scene
+□ Planejar 3 momentos de curiosity gap
+```
+
+### Three-Act Structure obrigatória
+```
+ATO 1 (0-30%) — SETUP:
+→ Establishing shot: quem, o quê, por que importa em 3 segundos
+→ Nomear a dor com precisão cirúrgica
+→ Criar curiosity gap (revelar parcialmente)
+COR: fria/neutra — ainda não há esperança
+
+ATO 2 (30-70%) — CONFRONTO:
+→ Revelação da solução progressivamente
+→ Provas de cada claim (stats, depoimentos, cases)
+→ The moment of revelation — o aha moment
+COR: transição para warm — esperança crescente
+
+ATO 3 (70-100%) — RESOLUÇÃO:
+→ Climax emocional (seção mais impactante)
+→ CTA como convite, não comando
+→ Post-credit scene (surpresa após conversão)
+COR: warm/vibrante — futuro positivo
+```
+
+### Técnicas cinematográficas em código
+```js
+// Slow motion em momento de impacto
+gsap.timeline()
+  .to(el, { scale: 1.02, duration: 0.5 })
+  .to(el, { scale: 1, duration: 2.5 }) // slow-mo proposital
+
+// Freeze frame — congelar no impacto
+gsap.timeline()
+  .to(el, { y: 0, opacity: 1, duration: 0.3, ease: "power4.out" })
+  .to({}, { duration: 0.4 }) // pausa = peso
+  .to(el, { /* continuar */ })
+
+// Whip pan transition
+gsap.to(from, { x: "-100vw", filter: "blur(20px)", duration: 0.2, ease: "power4.in" })
+gsap.fromTo(to, { x: "100vw", filter: "blur(20px)" }, { x: 0, filter: "blur(0px)", duration: 0.2 })
+
+// Match cut — forma que continua entre seções
+const state = Flip.getState(element);
+newSection.appendChild(element);
+Flip.from(state, { duration: 1.2, ease: "power3.inOut" });
+```
+
+### Color grading por look
+```css
+/* Teal-Orange (blockbuster) */
+.grade-action img { filter: saturate(1.2) hue-rotate(5deg); }
+
+/* Film Noir */
+.grade-noir img { filter: contrast(1.4) saturate(0.3); }
+
+/* Blade Runner */
+.grade-scifi img { filter: contrast(1.2) saturate(1.5) hue-rotate(-10deg) brightness(0.8); }
+
+/* Wes Anderson */
+.grade-wes img { filter: saturate(1.3) sepia(0.15) brightness(1.05); }
+
+/* Bleach Bypass (Fincher) */
+.grade-fincher img { filter: saturate(0.6) contrast(1.5) brightness(0.95); }
+
+/* Paleta que evolui com scroll — via CSS variables + ScrollTrigger */
+```
+
+### Mise en scène — composição como diretor
+```
+REGRA DOS TERÇOS: elementos-chave em 1/3, não no centro
+LEADING LINES: SVG paths que convergem para o CTA
+EYELINE MATCH: foto com pessoa olhando para o CTA
+NEGATIVE SPACE: silêncio visual — seções de respiro
+DEPTH OF FIELD: blur crescente em camadas de profundidade
+FIGURE-GROUND: elemento em movimento sobre fundo estático = figura imediata
+```
+
+### Gêneros de design
+```
+NOIR:       Fundos #080808+, serifada, alto contraste, grain, animações lentas
+SCI-FI:     HUD elements, monospace, ciano/laranja, scanlines, mecânico
+ROMANCE:    Pastéis quentes, cursiva, bokeh, muito espaço, suave
+THRILLER:   Preto+vermelho, ultra-bold condensed, rápido, countdown
+DOCUMENTÁRIO: Dados em destaque, fotografia real, sans neutra, dessaturado
+ART FILM:   1 elemento por seção, espaço extremo, serifada light, lento
+COMÉDIA:    Cores saturadas, bounce animations, humor em microcopy
+```
+
+### Som e timing musical
+```js
+// Timing baseado em BPM
+const bpm = 120;
+const beat = 60000 / bpm; // 500ms
+const eighth = beat / 2;   // 250ms
+
+gsap.from(".chars", {
+  stagger: eighth / 1000, // 0.25s entre chars
+  duration: beat / 1000,  // 0.5s cada
+  ease: "power4.out",
+});
+
+// Sound design com Tone.js
+const sound = new WebSoundDesign();
+document.addEventListener("click", () => sound.init(), { once: true });
+btn.addEventListener("click", () => sound.playConfirm());
+lenis.on("scroll", ({ progress }) => sound.updateWithScroll(progress));
+```
+
+### Jornada emocional por seção
+```
+RECONHECIMENTO: "Eles me entendem" → paleta neutra, linguagem em 1ª pessoa
+CURIOSIDADE:    "Pode ser diferente" → primeira revelação, leve saturação
+DESEJO:         "Eu quero isso" → produto em uso, paleta warm
+DÚVIDA:         "Funcionará para mim?" → depoimentos reais, paleta confiável
+CONFIANÇA:      "É legítimo" → logos, certificações, números
+EXCITAÇÃO:      "Preciso disso agora" → climax visual, saturação máxima
+A�ÃO:           "Vou fazer isso" → CTA limpo, espaço em branco, hover imediato
+```
+
+> Referências completas: references/cinematic-storytelling.md
+> Jornada emocional e gêneros: references/emotional-journey-genres.md
+
+---
+
+## TECNOLOGIAS DE REFERÊNCIA v7
+
+### Decisão: Scroll-Triggered vs Scroll-Bound
+```
+SCROLL-TRIGGERED (start/end + disparo único):
+→ Reveals, entradas, contadores, stagger de cards
+→ once: true para melhor performance
+→ toggleActions: "play none none none" padrão
+
+SCROLL-BOUND / SCRUBBER (scrub: true):
+→ Parallax, câmera 3D, video scrub, color transitions
+→ scrub: número = inércia em segundos (1.5 = elegante)
+→ ease: "none" OBRIGATÓRIO para scrub
+→ NUNCA usar scrub em animações simples de reveal
+```
+
+### Stack de Scroll recomendada
+```js
+// Hierarquia de decisão
+1. Lenis v2 + ScrollTrigger → padrão para todos os projetos
+2. ScrollTrigger.scrollerProxy() → obrigatório com Lenis
+3. Locomotive Scroll v5 → quando studio preferir (API similar ao Lenis)
+4. Barba.js → para sites multi-page com transições entre páginas
+5. ScrollTrigger.batch() → quando há muitos elementos com mesma animação
+6. gsap.matchMedia() → para animações responsivas diferentes por breakpoint
+```
+
+### Tecnologias 3D — quando usar cada uma
+```
+Three.js vanilla:
+→ Controle total, sem overhead React, canvas dedicado
+→ Para: websites de produto, backgrounds WebGL, não-React
+
+React Three Fiber:
+→ Integração natural com React, hooks, state
+→ Para: produtos React, componentes 3D em UI, interatividade complexa
+
+Spline:
+→ Exporta cena 3D sem código
+→ Para: equipes sem shader knowledge, prototipagem rápida
+
+Gaussian Splatting (gsplat.js):
+→ Quando tem objeto/espaço físico para capturar
+→ Para: imóveis, produtos físicos, patrimônio, turismo
+
+Raymarching:
+→ Efeitos impossíveis com geometria
+→ Para: fluidos, nuvens, fractais, mundos procedurais
+
+GPGPU:
+→ Simulação de 100k+ partículas com física
+→ Para: experiências imersivas, visualizações de dados massivos
+
+WebGPU:
+→ Compute shaders, 10x performance vs WebGL
+→ Para: simulações pesadas, ML no browser, pioneers
+```
+
+### Física — decisão de biblioteca
+```
+Rapier.js (@react-three/rapier):
+→ Rust→WASM, muito rápido, API limpa
+→ Suporta: rigid bodies, character controller, joints, sensors
+→ Para: maioria dos casos de física em WebGL
+
+Ammo.js:
+→ Bullet Physics (C++)→WASM
+→ Suporta também: soft bodies, cloth, vehicles
+→ Para: quando precisa de soft body ou vehicle physics avançado
+
+Matter.js:
+→ Física 2D puro JavaScript
+→ Para: jogos 2D, física em DOM/Canvas 2D
+
+Verlet manual:
+→ Cloth, cordas, cabelos — quando quer controle total
+→ Para: quando Rapier/Ammo são overkill para o efeito
+```
+
+### Canvas-only rendering
+```
+Usar quando:
+→ Lista com 10k+ items (virtualização Canvas)
+→ Editor visual complexo (Figma-like)
+→ Gráfico com 1M+ pontos de dados
+→ Interface em WebGL puro
+
+NUNCA para:
+→ UI normal (DOM é mais acessível e mantível)
+→ Formulários e interações de usuário comuns
+→ Quando SEO importa (Canvas não é indexável)
+```
+
+### WASM — integrações recomendadas
+```
+Rapier.js         → física (já usa WASM internamente)
+ONNX Runtime      → inferência de ML
+ImageMagick WASM  → processamento de imagem pesado
+FFmpeg WASM       → encode/decode de vídeo no browser
+SQLite WASM       → banco de dados local no browser
+```
+
+### GSAP — plugins e quando usar
+```
+ScrollTrigger    → scroll animations (gratuito)
+Observer         → mouse/touch/wheel unificado (gratuito)
+Flip             → layout animations (gratuito)
+DrawSVG          → SVG path animations (Club)
+MorphSVG         → SVG morphing (Club)
+SplitText v3     → texto partido com auto-resize (Club)
+Draggable        → drag com constraints e snap (Club)
+InertiaPlugin    → momentum após drag (Club)
+MotionPathPlugin → animação em path SVG (Club)
+
+Licença Club ($99/ano) OBRIGATÓRIA para:
+→ Projetos comerciais usando plugins premium
+→ Alternativas gratuitas: Lenis+ScrollTrigger (scroll), anime.js (morph)
+```
+
+> Referências v7:
+> Scroll sistema: references/scroll-navigation-complete.md
+> 3D fronteira: references/3d-frontier-technologies.md
+> Física e Motion UI: references/physics-wasm-motion-ui.md
