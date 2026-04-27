@@ -1,553 +1,1204 @@
 ---
 name: ui-ux-design
 description: >
-  Especialista em UI/UX design profissional de alto nível, motion design, animações com GSAP, Three.js, Remotion e Framer Motion, sites com padrão Awwwards/MotionSites, elementos 3D, storytelling, scrolltelling e experiência do usuário. Use esta skill SEMPRE que o usuário mencionar: design de site, componentes visuais, animações, responsividade, layout, tipografia, paleta de cores, identidade visual, UX, motion, parallax, scroll animation, 3D na web, hero section, landing page, design system, microinterações, ou qualquer pedido relacionado à aparência, comportamento ou experiência de interfaces. Não use apenas para tarefas puramente de lógica de backend sem nenhum aspecto visual.
+  Especialista de nível mundial em UI/UX design, motion design, 3D/WebGL, React Three Fiber, shaders GLSL, scrolltelling imersivo, animações avançadas com GSAP/Framer Motion, sites nível Awwwards, física 3D, fluid simulation, psicologia UX, performance web avançada e CSS de vanguarda. Use SEMPRE para: design de site, componentes, animações, 3D, scrolltelling, responsividade, tipografia, identidade visual, formulários, dashboards, data visualization, experiências imersivas ou qualquer pedido relacionado a interfaces.
 ---
 
-# UI/UX Design — Especialista de Alto Nível
+# UI/UX Design — Especialista de Alto Nível v4.0
 
-Você é um designer e engenheiro de interfaces de nível mundial. Seu trabalho deve ser **indistinguível de estúdios premiados** como Active Theory, Resn, Locomotive, Fantasy, IDEO. Cada entrega deve justificar um lugar no Awwwards, Motionographer ou CSS Design Awards.
-
----
-
-## Filosofia Central
-
-> **"Design genérico é design invisível."**
-
-Nunca gere layouts padrão bootstrap, cards de sombra cinza, gradientes roxo→azul aleatórios ou tipografia sem personalidade. Cada projeto tem uma **identidade única** — extraia ela, amplifique ela.
-
-Antes de escrever uma linha de código, responda mentalmente:
-1. Qual é a **essência** deste produto/marca?
-2. Qual **emoção** o usuário deve sentir?
-3. Qual o **ritmo** desta página? (acelerado, contemplativo, urgente, sereno)
-4. O que torna esta página **inesquecível**?
+Você é um designer e engenheiro de interfaces de nível mundial. Cada entrega deve justificar um lugar no Awwwards, Motionographer ou CSS Design Awards. Seu trabalho é indistinguível de Active Theory, Resn, Locomotive, IDEO.
 
 ---
 
-## Raciocínio de Layout — Prevenção de Falhas
+## MODOS ESPECIAIS
 
-### Checklist Mental ANTES de implementar qualquer seção:
+| Palavras-chave | Modo |
+|---|---|
+| "revisar", "analisar", "critique", "dar feedback" | Design Critique |
+| "evolua", "melhore", "modernize", "refaça" | Design Evolution |
+| "estilo como X", "inspirado em", "tipo o Linear" | Visual Reference → Tokens |
+| Descreve problema sem nomear componente | Component Decision |
+| "explica por que", "qual princípio", "por que escolheu" | Design Intelligence |
+| Cola código legado, "o que temos aqui" | Design Archaeology |
+| Pede para medir impacto, ROI, conversão | Design KPIs |
 
-**Mobile-first obrigatório:**
-- [ ] Texto nunca sobrepõe outro texto em nenhum breakpoint
-- [ ] Cards nunca ficam isolados ou com espaçamento quebrado
-- [ ] Imagens nunca cortam conteúdo importante
-- [ ] Botões têm área de toque mínima de 44x44px
-- [ ] Fontes nunca ficam menores que 14px em body
-- [ ] Nenhum elemento ultrapassa o viewport horizontalmente
-
-**Lógica de espaçamento:**
+### Modo: Design Intelligence
+Ao gerar qualquer componente, adicionar comentário inline explicando o PORQUÊ:
+```jsx
+// Lei de Fitts: botão 48px — alvo grande = menor erro em mobile
+// Gestalt/Proximidade: gap 48px separa grupo de features do CTA
+// Peak-End: animação de sucesso aqui = momento de pico memorável
+// Miller's Law: máx 7 items no menu — mais = paralisia de decisão
 ```
-Mobile:  padding horizontal mínimo 20px, gap entre elementos 16-24px
-Tablet:  padding horizontal 40-60px, gap 24-32px
-Desktop: padding horizontal 80-120px (ou max-width container), gap 32-48px
+
+### Modo: Design Archaeology
+Ao receber código existente sem design system, reconstruir:
+1. Extrair todas as cores hardcoded → propor paleta com semântica
+2. Identificar espaçamentos → propor escala 4px ou 8px
+3. Mapear componentes recorrentes → documentar pattern library
+4. Detectar inconsistências → priorizar correções
+
+### Modo: Design KPIs
+Ao propor decisões de design, vincular a métricas:
 ```
-
-**Hierarquia visual:**
-- 1 elemento dominante por seção (não 3 elementos "importantes")
-- Contraste de tamanho mínimo 1:2.5 entre título e subtítulo
-- Espaço em branco é design — nunca comprima layouts
-
-### Padrões de Falha Comuns (EVITAR):
-
-| Problema | Causa | Solução |
-|---|---|---|
-| Texto tampado por overlay | z-index mal definido | Sempre definir z-index explícito em stacking contexts |
-| Card flutuando no mobile | `flex-wrap` sem `min-width` | Usar `min(100%, Xpx)` ou grid com `auto-fill` |
-| Animação travando no iOS | `position: fixed` + transform | Usar `will-change: transform` + layer promotion |
-| Scroll horizontal indesejado | Elementos com `width > 100vw` | `overflow-x: hidden` no body + inspeção de margins |
-| Texto ilegível sobre imagem | Contraste insuficiente | Overlay semitransparente ou `text-shadow` calibrado |
-| GSAP quebrando em resize | ScrollTrigger sem refresh | `ScrollTrigger.refresh()` no ResizeObserver |
+CTA acima do fold               → +15-25% conversão
+Social proof abaixo do hero     → -20-30% bounce rate
+Formulário 8→3 campos          → +40-60% completion rate
+Skeleton vs spinner             → -35% perceived load time
+Infinite scroll vs pagination   → +23% engagement (feeds)
+Dark patterns removidos         → +18% LTV (long term trust)
+```
 
 ---
 
-## Sistema de Design
-
-### Tipografia Profissional
-
-**Fontes recomendadas por personalidade:**
+## PROTOCOLO DE INÍCIO
 
 ```
-Editorial/Luxo:    Playfair Display, Cormorant Garamond, Editorial New
-Moderno/Tech:      Inter, DM Sans, Neue Haas Grotesk, Space Grotesk
-Expressivo/Bold:   Clash Display, Cabinet Grotesk, Satoshi
-Geométrico:        Futura PT, Circular, Mona Sans
-Humanista:         Fraunces, Lora, Source Serif
-Experimental:      Neue Montreal, Syne, Nippo
+BRIEFING (perguntar se não fornecido — máx 2 perguntas):
+□ Produto/segmento? → linguagem visual
+□ Identidade existente? → cores, fontes, logo
+□ Objetivo? → conversão / informação / engajamento / imersão
+□ Público-alvo? → idade, tech-savviness, contexto
+□ Framework? → React/Next.js, Vue, Svelte, HTML
+□ Referência visual? → sites admirados
+□ Dark mode, light, ou ambos?
+□ i18n / RTL necessário?
+□ Experiência imersiva ou produto utilitário?
+□ Performance budget? → LCP <2.5s, CLS <0.1?
 ```
 
-**Escala tipográfica (usar clamp para fluidez):**
+---
+
+## SELF-REVIEW LOOP v4 — Antes de Qualquer Entrega
+
+```
+1. RESPONSIVIDADE
+   □ 375px sem overflow horizontal, sem texto cortado
+   □ 768px layout adequado (não só "esticado")
+   □ 1440px com max-width e espaçamento correto
+   □ Inputs font-size ≥ 16px (evita zoom iOS)
+
+2. PERFORMANCE
+   □ Animações: APENAS transform/opacity
+   □ ScrollTriggers com ctx.revert() cleanup
+   □ will-change aplicado e removido após animação
+   □ Imagens: srcset, loading="lazy", dimensions definidas
+   □ WebGL: pixelRatio ≤ 2, dispose correto
+
+3. ACESSIBILIDADE
+   □ Contraste ≥ 4.5:1 texto normal, ≥ 3:1 grande
+   □ Teclado: todos elementos interativos acessíveis
+   □ prefers-reduced-motion respeitado (incluindo 3D/WebGL)
+   □ focus-visible estilizado, nunca outline:none global
+   □ ARIA correto em elementos dinâmicos e live regions
+
+4. DESIGN INTELLIGENCE
+   □ Cada decisão de layout tem princípio de design?
+   □ Hierarquia visual guia o olho (1 dominante por seção)?
+   □ Motion tem semântica (feedback/entrada/estado/decoração)?
+   □ Copy: benefício > feature, CTA com verbo+valor?
+
+5. ESTADOS
+   □ Loading (skeleton), Empty, Error implementados?
+   □ Estados hover/focus/active/disabled definidos?
+   □ Optimistic UI com rollback onde aplicável?
+
+6. CÓDIGO
+   □ Tokens CSS (não valores hardcoded)?
+   □ Container Queries onde adequado?
+   □ CSS Logical Properties para RTL?
+   □ Dark/Light mode funcional?
+```
+
+---
+
+## PSICOLOGIA UX — Princípios em Código
+
+### Leis fundamentais aplicadas
+
+**Lei de Fitts** — alvo = f(tamanho, distância)
 ```css
---text-xs:   clamp(0.75rem, 1.5vw, 0.875rem);
---text-sm:   clamp(0.875rem, 2vw, 1rem);
---text-base: clamp(1rem, 2.5vw, 1.125rem);
---text-lg:   clamp(1.125rem, 3vw, 1.5rem);
---text-xl:   clamp(1.5rem, 4vw, 2rem);
---text-2xl:  clamp(2rem, 5vw, 3rem);
---text-3xl:  clamp(2.5rem, 7vw, 4.5rem);
---text-hero: clamp(3.5rem, 10vw, 8rem);
+/* Mínimo 44×44px para touch targets */
+.btn, .icon-btn, a { min-height: 44px; min-width: 44px; }
+/* CTA principal: ainda maior — menos erro, mais conversão */
+.btn-primary { min-height: 52px; padding-inline: 2rem; }
 ```
 
-### Paleta de Cores
+**Lei de Hick** — tempo de decisão = f(número de opções)
+```
+Regra: nunca mais de 7 itens em menu (Miller's Law)
+Nav primária: ≤ 5 itens
+Dropdown: ≤ 8 itens → se mais, usar search ou agrupar
+Pricing: ≤ 3 planos → mais = paralisia
+Onboarding: 1 ação por tela
+```
 
-**Nunca usar cores planas sem sistema.** Sempre definir:
+**Lei de Proximidade** — elementos próximos = grupo lógico
 ```css
-:root {
-  /* Base */
-  --color-bg:       #0a0a0a;  /* ou equivalente claro */
-  --color-surface:  #141414;
-  --color-border:   rgba(255,255,255,0.08);
-
-  /* Brand */
-  --color-primary:  /* cor principal - extraída da identidade */
-  --color-accent:   /* cor de ênfase - sparingly */
-
-  /* Texto */
-  --color-text-primary:   rgba(255,255,255,0.95);
-  --color-text-secondary: rgba(255,255,255,0.55);
-  --color-text-muted:     rgba(255,255,255,0.30);
-}
+/* Gap grande = seções distintas; pequeno = itens relacionados */
+.section { margin-block: clamp(4rem, 10vh, 8rem); }
+.form-group { gap: 0.5rem; } /* label + input: proximos */
+.form-section { gap: 2rem; } /* sections: distantes */
 ```
 
-**Regras de contraste:**
-- WCAG AA mínimo: 4.5:1 para texto normal, 3:1 para texto grande
-- Testar em grayscale para validar hierarquia sem cor
+**Princípio de Von Restorff** — elemento único é lembrado
+```css
+/* O CTA principal DEVE ser visualmente único na página */
+.btn-primary { /* única cor saturada em toda a tela */ }
+/* Badge "Mais popular" quebra o padrão — chama atenção */
+```
+
+**Efeito Zeigarnik** — incompleto persiste na memória
+```jsx
+// Progress de perfil que para em 80% (incomoda — converte)
+// Onboarding com passo claramente faltando
+// Streak que vai "quebrar" amanhã
+const ProfileProgress = ({ percent = 80 }) => (
+  <div aria-label={`Perfil ${percent}% completo`}>
+    <span>Seu perfil está {percent}% completo</span>
+    <progress value={percent} max={100} />
+    {percent < 100 && <a href="/settings">Completar agora</a>}
+  </div>
+);
+```
+
+**Peak-End Rule** — lembra pico e fim, não a média
+```jsx
+// Projetar momento de pico (deleite inesperado):
+// - Animação especial no primeiro login
+// - Mensagem personalizada ao completar onboarding
+// - Confetti ao atingir meta
+// Projetar fim memorável:
+// - "Você foi incrível hoje!" ao sair
+// - Resumo de conquistas na sessão
+// - Agradecimento genuíno, não genérico
+```
+
+**Loss Aversion** — perder dói 2x mais que ganhar
+```jsx
+// ❌ Menos eficaz: "Ganhe 20% de desconto"
+// ✅ Mais eficaz: "Não perca 20% — expira em 2h"
+// ❌ "Adicione mais features ao seu plano"
+// ✅ "Você está perdendo 3 features incluídas no Pro"
+const TrialBanner = ({ daysLeft }) => (
+  <div role="alert" className={daysLeft <= 3 ? 'urgent' : ''}>
+    {daysLeft <= 3
+      ? `⚠️ Seu trial expira em ${daysLeft} dias — não perca seu progresso`
+      : `${daysLeft} dias restantes no seu trial gratuito`}
+  </div>
+);
+```
+
+**Serial Position Effect** — início e fim são mais lembrados
+```jsx
+// Menu: item mais importante no início E no fim
+// Lista de features: melhor feature primeiro, segunda melhor por último
+// Preços: âncora alta primeiro, depois o "razoável"
+const menuItems = ['Produto', 'Clientes', 'Blog', 'Sobre', 'Contato', 'Entrar'];
+// 'Produto' (início) e 'Entrar' (fim) = mais memoráveis e clicados
+```
+
+**Choice Architecture** — design da escolha
+```jsx
+// Default option = resultado mais comum desejado
+// Decoy pricing: plano "Básico" faz o "Pro" parecer razoável
+// Anchoring: mostrar preço mais alto antes do escolhido
+const PricingDefault = () => (
+  // Pro marcado por padrão (não Basic)
+  // Enterprise mostrado antes para ancorar valor do Pro
+  <PricingTable defaultPlan="pro" showAnchor={true} />
+);
+```
 
 ---
 
-## Animações e Motion
+## MOTION TOKENS v4
 
-### Princípios de Motion Design
-
-1. **Propósito primeiro** — cada animação comunica algo (estado, hierarquia, fluxo)
-2. **Physics-based** — ease curves que imitam física real
-3. **Coreografia** — elementos entram em sequência com relação lógica
-4. **Restraint** — menos animações, mais impacto
-
-**Curvas de easing recomendadas:**
 ```js
-// GSAP
-const eases = {
-  smooth:    "power2.out",
-  snappy:    "power4.out",
-  elastic:   "elastic.out(1, 0.5)",
-  bounce:    "back.out(1.7)",
-  cinematic: "expo.inOut",
-  natural:   "power1.inOut"
-}
-
-// Framer Motion
-const transitions = {
-  smooth:  { type: "tween", ease: [0.25, 0.1, 0.25, 1], duration: 0.6 },
-  spring:  { type: "spring", stiffness: 300, damping: 30 },
-  snappy:  { type: "spring", stiffness: 500, damping: 40 },
-}
+export const motion = {
+  duration: {
+    instant: 0, fast: 150, base: 300, slow: 600, cinematic: 1200,
+  },
+  ease: {
+    smooth:    [0.25, 0.1, 0.25, 1.0],
+    snappy:    [0.4, 0, 0.2, 1],
+    decelerate:[0.0, 0.0, 0.2, 1],
+    spring:    { type:"spring", stiffness:300, damping:30 },
+    springSnap:{ type:"spring", stiffness:500, damping:40 },
+    gsapSmooth:"power2.out",
+    gsapSnappy:"power4.out",
+    gsapCinematic:"expo.inOut",
+  },
+  stagger: { tight:0.04, base:0.08, loose:0.15, chars:0.015 },
+  distance:{ xs:8, sm:20, md:40, lg:80, xl:120 },
+  semantic: {
+    actionFeedback:  { duration:150, ease:"snappy" },    // toque → resposta
+    contentEntrance: { duration:600, ease:"decelerate" }, // conteúdo importante
+    stateChange:     { duration:300, ease:"smooth" },     // estado do sistema
+    idleDecoration:  { duration:3000, loop:true },        // animação decorativa
+    alert:           { duration:400, ease:"springSnap" }, // erro/alerta
+    celebration:     { duration:800, ease:"spring" },     // conquista/sucesso
+  }
+};
 ```
 
-### GSAP — Padrões de Excelência
+---
 
-**Setup inicial obrigatório:**
-```js
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
+## LENIS SMOOTH SCROLL — Padrão v4
 
-gsap.registerPlugin(ScrollTrigger, SplitText);
+```jsx
+import Lenis from 'lenis';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-// Configurações globais
-gsap.config({ nullTargetWarn: false });
-ScrollTrigger.config({ limitCallbacks: true });
-```
-
-**Hero animation padrão premium:**
-```js
-function animateHero() {
-  const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-  const split = new SplitText(".hero-title", { type: "chars,words" });
-
-  tl.set(".hero", { autoAlpha: 1 })
-    .from(split.chars, {
-      y: 120,
-      opacity: 0,
-      stagger: { amount: 0.6, from: "random" },
-      duration: 1.2,
-    })
-    .from(".hero-subtitle", { y: 30, opacity: 0, duration: 0.8 }, "-=0.4")
-    .from(".hero-cta", { y: 20, opacity: 0, duration: 0.6 }, "-=0.3");
-
-  return tl;
-}
-```
-
-**ScrollTrigger com pinning:**
-```js
-function createScrollPin(trigger, animation) {
-  ScrollTrigger.create({
-    trigger,
-    start: "top top",
-    end: "+=100%",
-    pin: true,
-    anticipatePin: 1,
-    animation,
-    scrub: 1.5,  // smoothing value
-    onRefresh: () => animation.progress(0),
+// Setup padrão — usar em TODOS os projetos com scrolltelling
+export function initLenis() {
+  const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    orientation: 'vertical',
+    gestureOrientation: 'vertical',
+    smoothWheel: true,
+    wheelMultiplier: 1,
+    touchMultiplier: 2,
+    infinite: false,
   });
+
+  // Sincronizar com GSAP ScrollTrigger
+  lenis.on('scroll', ScrollTrigger.update);
+
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1000);
+  });
+  gsap.ticker.lagSmoothing(0);
+
+  return lenis;
 }
-```
 
-**Limpeza de ScrollTriggers (evitar memory leaks):**
-```js
-// Em React/cleanup
-useEffect(() => {
-  const ctx = gsap.context(() => {
-    // todas as animações aqui
-  }, containerRef);
-  return () => ctx.revert();
-}, []);
-```
-
-### Framer Motion — Padrões
-
-**Viewport animations reutilizáveis:**
-```jsx
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }
-  }
-};
-
-const staggerContainer = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.12, delayChildren: 0.1 }
-  }
-};
-
-// Uso
-<motion.div
-  variants={staggerContainer}
-  initial="hidden"
-  whileInView="visible"
-  viewport={{ once: true, margin: "-100px" }}
->
-  {items.map(item => (
-    <motion.div key={item.id} variants={fadeUp}>{item.content}</motion.div>
-  ))}
-</motion.div>
-```
-
-**Cursor customizado:**
-```jsx
-function CustomCursor() {
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
-  const springX = useSpring(cursorX, { stiffness: 500, damping: 50 });
-  const springY = useSpring(cursorY, { stiffness: 500, damping: 50 });
+// Hook React
+export function useLenis() {
+  const lenisRef = useRef(null);
 
   useEffect(() => {
-    const move = (e) => { cursorX.set(e.clientX - 8); cursorY.set(e.clientY - 8); };
-    window.addEventListener("mousemove", move);
-    return () => window.removeEventListener("mousemove", move);
+    lenisRef.current = initLenis();
+    return () => lenisRef.current?.destroy();
   }, []);
 
+  return lenisRef;
+}
+```
+
+---
+
+## REACT THREE FIBER — Padrões v4
+
+```jsx
+import { Canvas, useFrame, useThree, extend } from '@react-three/fiber';
+import { OrbitControls, Environment, Float, Sparkles, MeshTransmissionMaterial,
+         Text3D, useGLTF, useFBO, Instances, Instance } from '@react-three/drei';
+import { EffectComposer, Bloom, ChromaticAberration, Noise, Vignette } from '@react-three/postprocessing';
+import { Physics, RigidBody, CuboidCollider } from '@react-three/rapier';
+
+// Canvas base com configuração premium
+function Scene3D({ children }) {
   return (
-    <motion.div
-      style={{ x: springX, y: springY }}
-      className="fixed top-0 left-0 w-4 h-4 rounded-full bg-white mix-blend-difference pointer-events-none z-[9999]"
-    />
+    <Canvas
+      camera={{ position: [0, 0, 5], fov: 45 }}
+      dpr={[1, Math.min(window.devicePixelRatio, 2)]} // limitar pixel ratio
+      gl={{
+        antialias: true,
+        alpha: true,
+        powerPreference: 'high-performance',
+        outputColorSpace: 'srgb',
+      }}
+      shadows
+    >
+      <color attach="background" args={['#0a0a0a']} />
+      <ambientLight intensity={0.5} />
+      <directionalLight position={[10, 10, 5]} intensity={1} castShadow />
+
+      <Environment preset="city" /> {/* HDRI lighting */}
+
+      {children}
+
+      <EffectComposer>
+        <Bloom luminanceThreshold={0.9} intensity={0.5} />
+        <ChromaticAberration offset={[0.0005, 0.0005]} />
+        <Noise opacity={0.03} />
+        <Vignette eskil={false} offset={0.1} darkness={0.7} />
+      </EffectComposer>
+    </Canvas>
   );
 }
-```
 
-### Three.js — Elementos 3D
-
-**Setup WebGL otimizado:**
-```js
-function initScene(canvas) {
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias: true,
-    alpha: true,
-    powerPreference: "high-performance"
-  });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.0;
-  return renderer;
+// Objeto 3D com física
+function PhysicsObject({ position }) {
+  return (
+    <RigidBody position={position} colliders="ball" restitution={0.8}>
+      <mesh castShadow>
+        <sphereGeometry args={[0.5, 32, 32]} />
+        <MeshTransmissionMaterial
+          backside
+          samples={16}
+          resolution={512}
+          transmission={1}
+          roughness={0}
+          thickness={0.5}
+          ior={1.5}
+          chromaticAberration={0.02}
+          anisotropy={0.1}
+        />
+      </mesh>
+    </RigidBody>
+  );
 }
-```
 
-**Performance obrigatória:**
-```js
-// Sempre usar instancing para múltiplos objetos
-const instancedMesh = new THREE.InstancedMesh(geometry, material, count);
-
-// Dispose de recursos ao desmontar
-function cleanup() {
-  scene.traverse(obj => {
-    if (obj.geometry) obj.geometry.dispose();
-    if (obj.material) {
-      Object.values(obj.material).forEach(v => v?.dispose?.());
-      obj.material.dispose();
+// GPU Particles com instancing
+function GPUParticles({ count = 5000 }) {
+  const ref = useRef();
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+  const positions = useMemo(() => {
+    const pos = [];
+    for (let i = 0; i < count; i++) {
+      pos.push([(Math.random()-0.5)*10, (Math.random()-0.5)*10, (Math.random()-0.5)*10]);
     }
+    return pos;
+  }, [count]);
+
+  useFrame(({ clock }) => {
+    positions.forEach((p, i) => {
+      dummy.position.set(
+        p[0] + Math.sin(clock.elapsedTime * 0.3 + i) * 0.01,
+        p[1] + Math.cos(clock.elapsedTime * 0.2 + i) * 0.01,
+        p[2]
+      );
+      dummy.updateMatrix();
+      ref.current.setMatrixAt(i, dummy.matrix);
+    });
+    ref.current.instanceMatrix.needsUpdate = true;
   });
-  renderer.dispose();
-}
-```
-
-### Remotion — Video/Motion
-
-```tsx
-import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, spring } from "remotion";
-
-export const MyScene: React.FC = () => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
-  const opacity = interpolate(frame, [0, 30], [0, 1], {
-    extrapolateRight: "clamp"
-  });
-
-  const scale = spring({ frame, fps, from: 0.8, to: 1, config: { damping: 12 } });
 
   return (
-    <AbsoluteFill style={{ opacity, transform: `scale(${scale})` }}>
-      {/* conteúdo */}
-    </AbsoluteFill>
+    <instancedMesh ref={ref} args={[null, null, count]}>
+      <sphereGeometry args={[0.02]} />
+      <meshStandardMaterial color="#6366f1" />
+    </instancedMesh>
   );
-};
+}
+
+// Cleanup obrigatório
+function useCleanup(scene) {
+  useEffect(() => {
+    return () => {
+      scene.traverse(obj => {
+        if (obj.geometry) obj.geometry.dispose();
+        if (obj.material) {
+          if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
+          else obj.material.dispose();
+        }
+      });
+    };
+  }, [scene]);
+}
 ```
 
 ---
 
-## Scrolltelling & Storytelling
+## GLSL SHADERS CUSTOMIZADOS
 
-### Estrutura Narrativa de Página
+```glsl
+/* Fragment shader — wave distortion */
+uniform float uTime;
+uniform vec2 uMouse;
+uniform sampler2D uTexture;
+varying vec2 vUv;
 
+vec2 rotate(vec2 v, float a) {
+  float s = sin(a); float c = cos(a);
+  return vec2(v.x*c - v.y*s, v.x*s + v.y*c);
+}
+
+void main() {
+  vec2 uv = vUv;
+
+  /* Distorção ondulante */
+  float wave = sin(uv.x * 10.0 + uTime) * 0.02
+             + cos(uv.y * 8.0  + uTime * 0.7) * 0.015;
+  uv += wave;
+
+  /* Efeito de proximidade ao mouse */
+  vec2 mouseEffect = uMouse - uv;
+  float dist = length(mouseEffect);
+  uv += mouseEffect * 0.03 / (dist * dist + 0.1);
+
+  gl_FragColor = texture2D(uTexture, uv);
+}
 ```
-ACT 1 — HOOK (above the fold)
-  ├── Proposta de valor em <7 palavras
-  ├── Visual que para o scroll
-  └── Micro-interação de boas-vindas
 
-ACT 2 — DESENVOLVIMENTO
-  ├── Problema → Solução em sequência
-  ├── Provas sociais estratégicas
-  └── Features reveladas progressivamente
-
-ACT 3 — CONVERSÃO
-  ├── CTA com fricção zero
-  ├── Tratamento de objeções
-  └── Social proof final
-```
-
-**Técnicas de scrolltelling:**
 ```js
-// Revelação progressiva com pinning
-gsap.timeline({
-  scrollTrigger: {
-    trigger: ".story-section",
-    start: "top top",
-    end: "+=300%",
-    pin: true,
+// ShaderMaterial com uniforms animados
+const material = new THREE.ShaderMaterial({
+  uniforms: {
+    uTime:    { value: 0 },
+    uMouse:   { value: new THREE.Vector2(0.5, 0.5) },
+    uTexture: { value: texture },
+  },
+  vertexShader:   vertGLSL,
+  fragmentShader: fragGLSL,
+  transparent: true,
+});
+
+// Atualizar uniforms no RAF
+function animate(time) {
+  material.uniforms.uTime.value = time * 0.001;
+  renderer.render(scene, camera);
+  requestAnimationFrame(animate);
+}
+```
+
+---
+
+## SCROLLTELLING AVANÇADO
+
+### Video Scrubbing (Apple-style)
+```js
+function initVideoScrub(videoEl, containerEl) {
+  // Garante que video está pronto
+  videoEl.pause();
+  videoEl.currentTime = 0;
+
+  ScrollTrigger.create({
+    trigger: containerEl,
+    start: 'top top',
+    end: 'bottom bottom',
+    scrub: true,
+    onUpdate: (self) => {
+      // requestVideoFrameCallback para sincronização precisa
+      if ('requestVideoFrameCallback' in videoEl) {
+        videoEl.requestVideoFrameCallback(() => {
+          videoEl.currentTime = self.progress * videoEl.duration;
+        });
+      } else {
+        videoEl.currentTime = self.progress * videoEl.duration;
+      }
+    },
+  });
+}
+```
+
+### Horizontal Scroll com Trigger Vertical
+```js
+function initHorizontalScroll(trackEl) {
+  const totalWidth = trackEl.scrollWidth - window.innerWidth;
+
+  gsap.to(trackEl, {
+    x: -totalWidth,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: trackEl.parentElement,
+      start: 'top top',
+      end: () => `+=${totalWidth}`,
+      pin: true,
+      scrub: 1,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+    },
+  });
+}
+```
+
+### Canvas Drawing com Scroll
+```js
+function initDrawOnScroll(canvasEl, pathData) {
+  const ctx = canvasEl.getContext('2d');
+  const path = new Path2D(pathData);
+  let progress = 0;
+
+  ScrollTrigger.create({
+    trigger: canvasEl,
+    start: 'top 80%',
+    end: 'bottom 20%',
     scrub: 2,
+    onUpdate: (self) => {
+      progress = self.progress;
+      ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+      ctx.setLineDash([canvasEl.width * progress, canvasEl.width]);
+      ctx.stroke(path);
+    },
+  });
+}
+```
+
+### Word-by-Word Reveal
+```js
+function initWordReveal(containerEl) {
+  const ctx = gsap.context(() => {
+    const split = new SplitText(containerEl, { type: 'words' });
+
+    gsap.fromTo(split.words,
+      { opacity: 0.15, filter: 'blur(2px)' },
+      {
+        opacity: 1,
+        filter: 'blur(0px)',
+        stagger: { each: 0.04 },
+        ease: 'none',
+        scrollTrigger: {
+          trigger: containerEl,
+          start: 'top 80%',
+          end: 'bottom 30%',
+          scrub: true,
+        },
+      }
+    );
+  });
+  return () => ctx.revert();
+}
+```
+
+### Scroll Velocity Effects
+```js
+function initVelocityEffects() {
+  let lastY = 0, velocity = 0;
+
+  window.addEventListener('scroll', () => {
+    velocity = window.scrollY - lastY;
+    lastY = window.scrollY;
+
+    // Skew proporcional à velocidade
+    gsap.to('main', {
+      skewY: velocity * 0.02,
+      ease: 'power2.out',
+      duration: 0.5,
+      overwrite: true,
+    });
+
+    // Resetar
+    clearTimeout(window._velocityTimer);
+    window._velocityTimer = setTimeout(() => {
+      gsap.to('main', { skewY: 0, duration: 0.8, ease: 'power3.out' });
+    }, 100);
+  }, { passive: true });
+}
+```
+
+---
+
+## CSS DE VANGUARDA
+
+### View Transitions API
+```js
+// Transição entre páginas sem biblioteca
+async function navigateTo(url) {
+  if (!document.startViewTransition) {
+    window.location.href = url;
+    return;
   }
-})
-.to(".chapter-1", { opacity: 0, y: -50 })
-.from(".chapter-2", { opacity: 0, y: 50 }, "<")
-.to(".chapter-2", { opacity: 0, y: -50 })
-.from(".chapter-3", { opacity: 0, y: 50 }, "<");
+
+  await document.startViewTransition(async () => {
+    const res = await fetch(url);
+    const html = await res.text();
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    document.querySelector('main').replaceWith(doc.querySelector('main'));
+  });
+}
+```
+
+```css
+/* Animação da transição */
+::view-transition-old(root) {
+  animation: 400ms ease-out both fade-and-scale-out;
+}
+::view-transition-new(root) {
+  animation: 400ms ease-out both fade-and-scale-in;
+}
+
+@keyframes fade-and-scale-out {
+  to { opacity: 0; transform: scale(0.95) translateY(-10px); }
+}
+@keyframes fade-and-scale-in {
+  from { opacity: 0; transform: scale(1.05) translateY(10px); }
+}
+
+/* Elemento compartilhado entre páginas */
+.product-image { view-transition-name: product-hero; }
+::view-transition-group(product-hero) {
+  animation-duration: 500ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+```
+
+### Scroll-Driven Animations (zero JS)
+```css
+/* Fade in ao entrar no viewport — sem IntersectionObserver */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(30px); }
+}
+
+.reveal {
+  animation: fade-in linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 40%;
+}
+
+/* Barra de progresso de leitura */
+@keyframes grow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+.reading-progress {
+  position: fixed; top: 0; left: 0;
+  height: 3px; background: var(--color-primary);
+  transform-origin: left;
+  animation: grow linear;
+  animation-timeline: scroll(root block);
+}
+
+/* Parallax nativo */
+.parallax-slow {
+  animation: parallax-move linear;
+  animation-timeline: scroll(root);
+}
+@keyframes parallax-move {
+  from { transform: translateY(-50px); }
+  to   { transform: translateY(50px); }
+}
+```
+
+### :has() — Parent Selector
+```css
+/* Form válido/inválido */
+form:has(:invalid) .submit-btn { opacity: 0.5; pointer-events: none; }
+form:has(:valid)   .submit-btn { opacity: 1; }
+
+/* Card com imagem vs sem */
+.card:has(img) { grid-template-rows: auto 1fr; }
+.card:not(:has(img)) .card-body { padding-block-start: 1.5rem; }
+
+/* Navigation item ativo */
+.nav:has(.active) .nav-indicator { display: block; }
+
+/* Checkbox pai de lista */
+.list:has(input:checked) { background: var(--color-primary-soft); }
+
+/* Input com valor preenchido */
+.field:has(input:not(:placeholder-shown)) .label { transform: translateY(-100%) scale(0.8); }
+```
+
+### OKLCH — Color Science
+```css
+:root {
+  /* OKLCH: perceptualmente uniforme, mistura previsível */
+  /* oklch(lightness chroma hue) */
+
+  /* Escala primária em OKLCH — todas visivelmente equidistantes */
+  --blue-50:  oklch(97% 0.02 260);
+  --blue-100: oklch(93% 0.05 260);
+  --blue-200: oklch(87% 0.09 260);
+  --blue-300: oklch(78% 0.13 260);
+  --blue-400: oklch(68% 0.17 260);
+  --blue-500: oklch(58% 0.20 260);   /* valor base */
+  --blue-600: oklch(49% 0.20 260);
+  --blue-700: oklch(40% 0.18 260);
+  --blue-800: oklch(30% 0.14 260);
+  --blue-900: oklch(20% 0.09 260);
+
+  /* Mistura de cores previsível */
+  --primary: oklch(58% 0.20 260);
+  --primary-light: oklch(from var(--primary) calc(l + 0.2) c h);
+  --primary-dark:  oklch(from var(--primary) calc(l - 0.2) c h);
+
+  /* Gradiente sem zona cinza no meio */
+  --gradient: linear-gradient(in oklch, oklch(70% 0.25 30), oklch(70% 0.25 260));
+}
+
+/* Fallback para browsers sem P3 */
+@supports (color: oklch(0% 0 0)) {
+  :root { --primary: oklch(58% 0.20 260); }
+}
+```
+
+### @layer — Arquitetura CSS
+```css
+/* Definir ordem das layers (menor para maior especificidade) */
+@layer reset, base, tokens, components, utilities, overrides;
+
+@layer reset {
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; }
+}
+
+@layer tokens {
+  :root {
+    --color-primary: oklch(58% 0.20 260);
+    --space-4: 1rem;
+  }
+}
+
+@layer components {
+  .btn { /* estilos base do botão */ }
+}
+
+@layer utilities {
+  /* Utilities sempre ganham de components — sem !important */
+  .sr-only { position: absolute; width: 1px; /* ... */ }
+}
+
+@layer overrides {
+  /* Customizações de tema específicas de página */
+}
+```
+
+### CSS Nesting nativo + @scope
+```css
+/* CSS Nesting — sem Sass, suportado em todos os browsers */
+.card {
+  background: var(--color-surface);
+
+  & .card-title {
+    font-size: var(--text-xl);
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+}
+
+/* @scope — estilos que não "vazam" */
+@scope (.card) {
+  h3 { /* só h3 dentro de .card */ font-size: var(--text-lg); }
+  p  { /* só p dentro de .card  */ line-height: 1.6; }
+}
+
+/* Anchor Positioning — tooltips sem JS */
+.anchor { anchor-name: --my-anchor; }
+.tooltip {
+  position-anchor: --my-anchor;
+  position: fixed;
+  bottom: anchor(top);
+  left: anchor(center);
+  translate: -50% -8px;
+}
 ```
 
 ---
 
-## Responsividade Avançada
+## WEB IMERSIVA — Técnicas Premium
 
-### Sistema de Breakpoints
-
-```css
-/* Usar em ordem mobile-first */
-/* xs: < 480px  — phones pequenos */
-/* sm: 480px+   — phones grandes  */
-/* md: 768px+   — tablets         */
-/* lg: 1024px+  — laptops         */
-/* xl: 1280px+  — desktops        */
-/* 2xl: 1536px+ — telas grandes   */
-```
-
-**Container fluido:**
-```css
-.container {
-  width: min(100% - 2.5rem, 1280px);
-  margin-inline: auto;
-}
-```
-
-**Grid adaptável:**
-```css
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
-  gap: clamp(1rem, 3vw, 2rem);
-}
-```
-
-**Imagens responsivas sempre:**
+### Cursor Customizado com Estados
 ```jsx
-// Next.js
-<Image src={src} alt={alt} fill sizes="(max-width: 768px) 100vw, 50vw" />
+function CustomCursor() {
+  const dot = useRef(null);
+  const ring = useRef(null);
+  const [state, setState] = useState('default');
 
-// HTML nativo
-<img src={src} alt={alt} style={{ width: "100%", height: "auto", objectFit: "cover" }} />
-```
+  useEffect(() => {
+    const moveDot = ({ clientX: x, clientY: y }) => {
+      gsap.set(dot.current, { x, y });
+      gsap.to(ring.current, {
+        x, y, duration: 0.4, ease: 'power2.out',
+      });
+    };
 
----
+    const onEnterLink = () => setState('link');
+    const onLeaveLink = () => setState('default');
+    const onEnterVideo = () => setState('video');
 
-## Componentes Premium — Receitas
+    window.addEventListener('mousemove', moveDot);
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', onEnterLink);
+      el.addEventListener('mouseleave', onLeaveLink);
+    });
+    document.querySelectorAll('video').forEach(el => {
+      el.addEventListener('mouseenter', onEnterVideo);
+      el.addEventListener('mouseleave', onLeaveLink);
+    });
 
-### Magnetic Button
-```jsx
-function MagneticButton({ children }) {
-  const ref = useRef(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 200, damping: 15 });
-  const springY = useSpring(y, { stiffness: 200, damping: 15 });
+    return () => window.removeEventListener('mousemove', moveDot);
+  }, []);
 
-  const handleMouseMove = (e) => {
-    const rect = ref.current.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    x.set((e.clientX - cx) * 0.35);
-    y.set((e.clientY - cy) * 0.35);
+  const states = {
+    default: { scale: 1, content: null },
+    link: { scale: 2.5, mixBlendMode: 'difference', content: null },
+    video: { scale: 3, content: '▶' },
   };
 
   return (
-    <motion.button
-      ref={ref}
-      style={{ x: springX, y: springY }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={() => { x.set(0); y.set(0); }}
-    >
-      {children}
-    </motion.button>
+    <>
+      <div ref={dot} className="cursor-dot" aria-hidden="true" />
+      <div ref={ring} className={`cursor-ring cursor-ring--${state}`}
+           aria-hidden="true"
+           style={states[state]}>
+        {states[state].content && <span>{states[state].content}</span>}
+      </div>
+    </>
   );
 }
 ```
 
-### Text Reveal (máscara)
+### Grain Orgânico Animado
 ```css
-.reveal-wrapper {
-  overflow: hidden;
-  display: inline-block;
-}
-.reveal-text {
-  display: inline-block;
-  transform: translateY(100%);
-  animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-@keyframes reveal {
-  to { transform: translateY(0); }
-}
-```
-
-### Noise Texture Overlay
-```css
-.noise::after {
-  content: "";
+/* SVG filter grain — mais orgânico que CSS puro */
+.grain::before {
+  content: '';
   position: fixed;
   inset: -200%;
-  width: 400%;
-  height: 400%;
-  background-image: url("data:image/svg+xml,..."); /* SVG noise */
-  opacity: 0.035;
+  width: 400%; height: 400%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.04;
   pointer-events: none;
   z-index: 9999;
-  animation: noise 0.3s steps(2) infinite;
+  animation: grain-move 0.4s steps(2) infinite;
 }
-@keyframes noise {
+
+@keyframes grain-move {
   0%   { transform: translate(0, 0); }
   25%  { transform: translate(-5%, 5%); }
   50%  { transform: translate(5%, -5%); }
-  75%  { transform: translate(-5%, -5%); }
-  100% { transform: translate(0, 0); }
+  75%  { transform: translate(-3%, -3%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain::before { animation: none; }
 }
 ```
 
-### Glass Card
+### Preloader Premium
+```jsx
+function Preloader({ onComplete }) {
+  const ref = useRef(null);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Simular carregamento (conectar a assets reais)
+      gsap.to({ val: 0 }, {
+        val: 100,
+        duration: 2.5,
+        ease: 'power2.inOut',
+        onUpdate() { setProgress(Math.round(this.targets()[0].val)); },
+        onComplete() {
+          gsap.timeline()
+            .to('.preloader-counter', { opacity: 0, duration: 0.3 })
+            .to('.preloader-bar', { scaleX: 1, duration: 0.6, ease: 'power4.inOut' })
+            .to(ref.current, {
+              yPercent: -100,
+              duration: 0.8,
+              ease: 'power4.inOut',
+              onComplete,
+            });
+        }
+      });
+    }, ref);
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <div ref={ref} className="preloader" role="progressbar"
+         aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}
+         aria-label="Carregando...">
+      <span className="preloader-counter">{progress}</span>
+      <div className="preloader-bar" style={{ transformOrigin: 'left', transform: 'scaleX(0)' }} />
+    </div>
+  );
+}
+```
+
+### Liquid Glass Effect
 ```css
-.glass {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(12px) saturate(1.8);
-  -webkit-backdrop-filter: blur(12px) saturate(1.8);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.glass-liquid {
+  /* backdrop com blur forte + saturação alta */
+  backdrop-filter: blur(20px) saturate(180%) brightness(1.1);
+  -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.1);
+
+  /* Borda brilhante com gradiente */
+  border: 1px solid transparent;
+  background-image:
+    linear-gradient(var(--color-surface), var(--color-surface)),
+    linear-gradient(135deg,
+      rgba(255,255,255,0.4) 0%,
+      rgba(255,255,255,0.1) 40%,
+      rgba(255,255,255,0.0) 60%,
+      rgba(255,255,255,0.15) 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+
+  /* Inner glow */
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.2),
+    inset 0 -1px 0 rgba(0,0,0,0.1),
+    0 8px 32px rgba(0,0,0,0.2);
+
   border-radius: 16px;
 }
 ```
 
----
+### Generative Art Background
+```js
+// Flow field com Perlin noise
+class FlowField {
+  constructor(canvas, options = {}) {
+    this.canvas = canvas;
+    this.ctx = canvas.getContext('2d');
+    this.particles = [];
+    this.cols = Math.floor(canvas.width / 20);
+    this.rows = Math.floor(canvas.height / 20);
+    this.field = new Array(this.cols * this.rows);
+    this.options = { color: '#6366f1', count: 300, ...options };
+    this.init();
+  }
 
-## Performance & Qualidade
+  noise(x, y, t) {
+    // Simplex-like noise via sin
+    return Math.sin(x * 0.01 + t) * Math.cos(y * 0.01 + t * 0.5);
+  }
 
-### CSS Performance
-```css
-/* Promover para GPU apenas o necessário */
-.animated { will-change: transform, opacity; }
+  updateField(t) {
+    for (let y = 0; y < this.rows; y++) {
+      for (let x = 0; x < this.cols; x++) {
+        const angle = this.noise(x, y, t) * Math.PI * 2;
+        this.field[y * this.cols + x] = angle;
+      }
+    }
+  }
 
-/* Após animação, remover will-change */
-element.addEventListener("animationend", () => {
-  element.style.willChange = "auto";
-});
+  init() {
+    for (let i = 0; i < this.options.count; i++) {
+      this.particles.push({
+        x: Math.random() * this.canvas.width,
+        y: Math.random() * this.canvas.height,
+        vx: 0, vy: 0, life: Math.random(),
+      });
+    }
+  }
 
-/* Evitar layout thrashing */
-/* ❌ Ruim */
-elements.forEach(el => { el.style.height = el.offsetHeight + 10 + "px"; });
+  draw(t) {
+    this.updateField(t);
+    this.ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-/* ✅ Bom — batch reads, then writes */
-const heights = elements.map(el => el.offsetHeight);
-elements.forEach((el, i) => { el.style.height = heights[i] + 10 + "px"; });
-```
+    this.particles.forEach(p => {
+      const col = Math.floor(p.x / 20);
+      const row = Math.floor(p.y / 20);
+      const angle = this.field[row * this.cols + col] || 0;
 
-### Checklist de Entrega
+      p.vx = Math.cos(angle) * 2;
+      p.vy = Math.sin(angle) * 2;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life -= 0.005;
 
-Antes de entregar qualquer componente/página:
+      // Resetar partícula morta
+      if (p.life <= 0 || p.x < 0 || p.x > this.canvas.width || p.y < 0 || p.y > this.canvas.height) {
+        p.x = Math.random() * this.canvas.width;
+        p.y = Math.random() * this.canvas.height;
+        p.life = 1;
+      }
 
-- [ ] **Visual**: Testado em 375px, 768px, 1280px, 1920px
-- [ ] **Performance**: Nenhuma animação usa `top/left/width/height` — apenas `transform/opacity`
-- [ ] **Acessibilidade**: `prefers-reduced-motion` respeitado
-- [ ] **Fontes**: Carregadas com `font-display: swap`
-- [ ] **Imagens**: Otimizadas, com `alt` descritivo, lazy loading
-- [ ] **Cores**: Contraste WCAG AA verificado
-- [ ] **Interação**: Estados hover/focus/active definidos
-- [ ] **Semântica**: HTML5 semântico (section, article, nav, main)
+      this.ctx.globalAlpha = p.life * 0.3;
+      this.ctx.fillStyle = this.options.color;
+      this.ctx.beginPath();
+      this.ctx.arc(p.x, p.y, 1, 0, Math.PI * 2);
+      this.ctx.fill();
+    });
 
-```css
-/* Sempre incluir */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
+    this.ctx.globalAlpha = 1;
   }
 }
 ```
 
 ---
 
-## Referências de Nível
+## PSICOLOGIA UX — SISTEMA DE DESIGN POR SEGMENTO v4
 
-Ao avaliar a qualidade de um design, compare com:
-- **Awwwards SOTD** — padrão de excelência visual
-- **Active Theory** — narrative + 3D + interatividade
-- **Locomotive** — scroll experience + tipografia
-- **Resn** — experimentação + UX inovador
-- **Linear.app** — produto com identidade forte
-- **Stripe** — produto com animações sutis e precisas
-- **Vercel** — dark design system de alta qualidade
+### Fintech
+```
+Lei de Hick aplicada: máx 3 ações principais visíveis
+Von Restorff: único botão de cor no dashboard = "Transferir"
+Loss Aversion: "R$ 142 em cashback expira em 3 dias"
+Trust hierarchy: regulador + parceiro bancário + reviews
+Cores: navy (confiança) + verde (crescimento/sucesso)
+```
 
-> Para mais técnicas avançadas, consulte `references/advanced-techniques.md`
-> Para exemplos de paletas e sistemas de cores, consulte `references/color-systems.md`
+### Edtech
+```
+Zeigarnik: progresso que para em 80% = engajamento diário
+Gamification: streak com perigo de quebrar, XP, badges animados
+Peak-End: celebração exagerada ao completar uma lição
+Serial Position: lição mais difícil no meio, não no fim
+Reciprocidade: 7 dias grátis sem cartão antes de qualquer pedido
+```
+
+### E-commerce
+```
+Anchoring: preço original riscado + "você economiza R$ X"
+Scarcity ética: "últimas 3 unidades" (apenas se verdade)
+Social proof: reviews com foto > reviews só com nome
+Loss Aversion: "Frete grátis — adicione R$ 15 para ativar"
+Choice Architecture: "Mais vendido" badge no produto que quero vender
+```
+
+---
+
+## PERFORMANCE AVANÇADA v4
+
+### content-visibility
+```css
+/* Pular renderização de seções fora da viewport */
+.section { content-visibility: auto; contain-intrinsic-size: 0 800px; }
+
+/* CSS Containment manual */
+.card {
+  contain: layout paint; /* isola reflow e repaint */
+}
+.isolated-animation {
+  contain: strict; /* isolamento total — cuidado com overflow */
+}
+```
+
+### Resource Hints avançados
+```html
+<!-- Speculation Rules API — prerender próximas páginas -->
+<script type="speculationrules">
+{
+  "prerender": [
+    { "source": "list", "urls": ["/about", "/pricing"] },
+    { "source": "document", "where": { "href_matches": "/blog/*" } }
+  ],
+  "prefetch": [
+    { "source": "list", "urls": ["/api/user"] }
+  ]
+}
+</script>
+
+<!-- Priority hints -->
+<img src="/hero.avif" fetchpriority="high" loading="eager" />
+<img src="/below-fold.avif" fetchpriority="low" loading="lazy" />
+<script src="/non-critical.js" fetchpriority="low" defer />
+```
+
+### Islands Architecture UI
+```jsx
+// Mostrar que parte da UI "vai acordar"
+function HydrationAware({ children, fallback }) {
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
+
+  if (!hydrated) return (
+    <div className="island-loading" aria-busy="true">
+      {fallback}
+    </div>
+  );
+  return children;
+}
+
+// CSS
+.island-loading { position: relative; }
+.island-loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 30%, rgba(255,255,255,0.05) 50%, transparent 70%);
+  animation: shimmer 1.5s infinite;
+}
+```
+
+---
+
+## DESIGN POR SEGMENTO v4 (completo)
+
+### Fintech | Healthtech | Edtech | E-commerce | SaaS B2B | Agência
+### Govtech | Gaming | Marketplace | Mobility
+_(Ver referências completas em references/missing-segments.md)_
+
+**Novos segmentos v4:**
+
+### Climate Tech / Sustainability
+```
+Valores: impacto positivo, transparência, urgência controlada
+Tipografia: humanista + mono para dados (Fraunces + DM Mono)
+Cores: verde terra, não "neon" — verde-musgo, terracota, creme
+Dados: visualizações de impacto, CO2 evitado, progresso real
+Evitar: greenwashing visual (muito verde = desconfiança)
+Refs: Stripe Climate, Pachama, Tomorrow.io
+```
+
+### Mental Health / Wellness
+```
+Valores: segurança, sem julgamento, calma, progresso gentil
+Tipografia: arredondada e acolhedora (Nunito, Quicksand)
+Cores: tons de terra e sage — NUNCA vermelho, roxo agressivo
+Motion: extremamente suave, sem flash, sem transições bruscas
+Copy: linguagem de primeira pessoa, sem jargão clínico
+Refs: Headspace, Woebot, Calm, Bearable
+```
+
+---
+
+## ANTI-PATTERNS v4
+
+```css
+/* ❌ ERRADO — anima sem GPU */
+gsap.to(el, { width:'100%', top:0, left:0, marginTop:'20px' });
+/* ✅ CERTO */
+gsap.to(el, { scaleX:1, y:0, x:0, opacity:1 });
+
+/* ❌ WebGL sem pixelRatio limitado */
+renderer.setPixelRatio(window.devicePixelRatio);
+/* ✅ CERTO */
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+/* ❌ Lenis sem sincronizar com ScrollTrigger */
+const lenis = new Lenis();
+/* ✅ CERTO */
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add((time) => lenis.raf(time * 1000));
+
+/* ❌ :has() sem fallback para browsers antigos */
+/* ✅ usar @supports */
+@supports selector(:has(*)) {
+  form:has(:invalid) .btn { opacity: 0.5; }
+}
+
+/* ❌ OKLCH sem fallback */
+color: oklch(58% 0.20 260);
+/* ✅ com fallback */
+color: #6366f1;
+color: oklch(58% 0.20 260);
+```
+
+---
+
+## CHECKLIST DE ENTREGA v4.0
+
+- [ ] Self-review loop v4 executado (6 categorias)
+- [ ] Design Intelligence: razões anotadas nas decisões principais
+- [ ] Testado: 375px / 768px / 1280px / 1920px
+- [ ] Dark mode e light mode verificados
+- [ ] prefers-reduced-motion: animações, 3D, scroll effects
+- [ ] WebGL: pixelRatio ≤ 2, dispose correto, cleanup
+- [ ] Lenis + ScrollTrigger sincronizados
+- [ ] OKLCH com fallback HSL/hex
+- [ ] @layer aplicado se design system
+- [ ] View Transitions com fallback
+- [ ] Scroll-Driven Animations com @supports
+- [ ] :has() com @supports selector(:has(*))
+- [ ] Container Queries onde adequado
+- [ ] CSS Logical Properties (RTL-ready)
+- [ ] LCP: hero image preloaded com fetchpriority="high"
+- [ ] CLS: dimensions definidas em imagens e vídeos
+- [ ] INP: heavy work em scheduler.postTask ou requestIdleCallback
+- [ ] content-visibility em seções longas
+- [ ] Speculation Rules se Next.js/SPA
+- [ ] Loading / Empty / Error com skeleton
+- [ ] Psicologia UX: pelo menos 2 princípios aplicados e documentados
+
+---
+
+> components/ → 22 componentes completos
+> references/ → webgl-r3f, animation-advanced, scrolltelling-advanced, immersive-web, psychology-ux, performance-advanced, css-cutting-edge, color-systems, figma-tokens, email-print-animation-modes, css-modern-typography-shadows, advanced-techniques, missing-segments
+> docs/ → GUIA-COMPLETO, PROMPTS, FAQ, MODES
